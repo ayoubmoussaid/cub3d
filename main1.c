@@ -39,14 +39,17 @@ int worldMap[mapWidth][mapHeight]=
 
 void verline(int x,int y0,int y1, t_elt *elt)
 {
-	int i;
-
-	i = y0;
-    while (i <= y1) { 
+    for (int i = y0; i <= y1; i++) { 
         elt->img_data[x + WIDTH*i] = elt->color;
-		i++;
     }
 }
+
+/* oid verlineperso(int x,int texx, int texheight, t_elt *elt)
+{
+    for (int i = elt->drawstart; i <= elt->drawend; i++) { 
+        elt->img_data[x + WIDTH*i] = elt->color;
+    }
+} */
 
 int close_win(void *param)
 {
@@ -130,17 +133,40 @@ void	draw_map(t_elt *elt)
 		if (worldMap[elt->map.x][elt->map.y] == 1)
 			elt->color = 0xfcba03;
 
-		if (elt->side == 1 && elt->raydir.y < 0)
+		//not mine , trying to understand 
+		int texNum = worldMap[elt->map.x][elt->map.y] - 1;
+
+		double wallx;
+		if (elt->side == 0) wallx = elt->player.y + elt->perpwalldist * elt->raydir.y;
+		else				wallx = elt->player.x + elt->perpwalldist * elt->raydir.x;
+
+		wallx -= floor(wallx);
+
+		int texx = (int)(wallx * (double)64);
+		if (elt->side == 0 && elt->raydir.x > 0) texx = 64 - texx - 1;
+		if (elt->side == 1 && elt->raydir.y < 0) texx = 64 - texx - 1;
+
+		double step = 1.0 * 64/elt->lineheight;
+
+		double texpos = (elt->drawstart - HEIGHT/2 + elt->lineheight / 2) * step;
+
+		for (int i = elt->drawstart; i <= elt->drawend; i++) {
+			int texy = (int)texpos & (64 - 1);
+			texpos += step;
+        	elt->img_data[x + WIDTH*i] = elt->texture.img_data[64*texy + texx];
+    	}
+
+		/* if (elt->side == 1 && elt->raydir.y < 0)
 			elt->color = 0x03fc28;
 		if (elt->side == 1 && elt->raydir.y > 0)
 			elt->color = 0x03f4fc;
 		if (elt->side == 0 && elt->raydir.x > 0)
 			elt->color = 0xa903fc;
 		if (elt->side == 0 && elt->raydir.x < 0)
-			elt->color = 0xfc5a03;
+			elt->color = 0xfc5a03; */
 		
 		
-		verline(x, elt->drawstart, elt->drawend, elt);
+		//verline(x, elt->drawstart, elt->drawend, elt);
 		elt->color = 0x525b6b;
 		verline(x, elt->drawend, HEIGHT - 1, elt);
 
@@ -225,9 +251,12 @@ int main()
 	t_elt *elt = (t_elt*)malloc(sizeof(t_elt));
 	elt->mlx_ptr = mlx_init();
 	elt->win= mlx_new_window(elt->mlx_ptr, WIDTH, HEIGHT, "cub3D");
+	int a = 64, b = 64;
 	elt->img_ptr = mlx_new_image(elt->mlx_ptr, WIDTH, HEIGHT); 
 	elt->img_data = (int*)mlx_get_data_addr(elt->img_ptr, &(elt->bpp), &(elt->sizeline), &(elt->endian));
 	
+	elt->texture.img_ptr =  mlx_xpm_file_to_image ( elt->mlx_ptr, "./pics/stone.xpm", &a, &b);
+	elt->texture.img_data = (int*)mlx_get_data_addr(elt->texture.img_ptr, &(elt->texture.bpp), &(elt->texture.sizeline), &(elt->texture.endian));
 
 	elt->player.x = 18;
 	elt->player.y = 12; 
@@ -235,9 +264,9 @@ int main()
 	elt->dir.y = 0;
 	elt->plane.x = 0;
 	elt->plane.y = -0.66;
-
 	
 	draw_map(elt);
+
 	mlx_put_image_to_window(elt->mlx_ptr, elt->win, elt->img_ptr, 0, 0);
 
 	mlx_hook(elt->win, 2, 0, key_press, elt);

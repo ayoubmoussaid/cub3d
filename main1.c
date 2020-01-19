@@ -4,20 +4,20 @@ int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1},
+  {1,0,1,0,0,0,1,1,1,1,1,0,1,1,1,1,0,1,0,1,0,0,0,1},
+  {1,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,1,0,0,0,1,0,1,0,0,1,0,0,0,1,0,0,0,1},
+  {1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
-  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -28,28 +28,42 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-
-/* void verline(int x,int y0,int y1, t_elt *elt)
+void	sort(t_elt *elt)
 {
-    for (int i = y0; i <= y1; i++) { 
-        mlx_pixel_put(elt->mlx_ptr, elt->win, x, i, elt->color);
-    }
-} */
+	int i ;
+	int x;
+	double k;
+	int sorted = 0;
+	while (!sorted)
+	{
+		i = -1;
+		sorted = 1;
+		while (++i < elt->sp - 1)
+		{
+			if (elt->spdist[i] < elt->spdist[i+1])
+			{
+				k = elt->spdist[i];
+				elt->spdist[i] = elt->spdist[i+1];
+				elt->spdist[i+1] = k;
 
+				x = elt->sporder[i];
+				elt->sporder[i] = elt->sporder[i+1];
+				elt->sporder[i+1] = x;
+				sorted = 0;
+			}
+		}
+	}
+}
 
 void verline(int x,int y0,int y1, t_elt *elt)
 {
-    for (int i = y0; i <= y1; i++) { 
+	int i = y0;
+    while ( i <= y1) 
+	{ 
         elt->img_data[x + WIDTH*i] = elt->color;
+		i++;
     }
 }
-
-/* oid verlineperso(int x,int texx, int texheight, t_elt *elt)
-{
-    for (int i = elt->drawstart; i <= elt->drawend; i++) { 
-        elt->img_data[x + WIDTH*i] = elt->color;
-    }
-} */
 
 int close_win(void *param)
 {
@@ -59,8 +73,8 @@ int close_win(void *param)
 
 void	draw_map(t_elt *elt)
 {
-	int x = 0;
-	while (x < WIDTH)
+	int x = -1;
+	while (++x < WIDTH)
 	{
 		elt->camera.x = 2 * x / (double)WIDTH - 1;
 		elt->raydir.x = elt->dir.x + elt->plane.x * elt->camera.x;
@@ -126,10 +140,11 @@ void	draw_map(t_elt *elt)
 			elt->drawend = HEIGHT - 1;
 
 
-		
+		//draw sky
 		elt->color = 0x00c8fa;
 		verline(x, 0, elt->drawstart, elt);
 
+		//draw walls with textures
 		if (worldMap[elt->map.x][elt->map.y] == 1)
 			elt->color = 0xfcba03;
 
@@ -153,26 +168,85 @@ void	draw_map(t_elt *elt)
 		for (int i = elt->drawstart; i <= elt->drawend; i++) {
 			int texy = (int)texpos & (64 - 1);
 			texpos += step;
-        	elt->img_data[x + WIDTH*i] = elt->texture.img_data[64*texy + texx];
+        	
+			if (elt->side == 1 && elt->raydir.y < 0)
+				elt->img_data[x + WIDTH*i] = elt->texture[0].img_data[64*texy + texx];
+			if (elt->side == 1 && elt->raydir.y > 0)
+				elt->img_data[x + WIDTH*i] = elt->texture[1].img_data[64*texy + texx];
+			if (elt->side == 0 && elt->raydir.x > 0)
+				elt->img_data[x + WIDTH*i] = elt->texture[2].img_data[64*texy + texx];
+			if (elt->side == 0 && elt->raydir.x < 0)
+				elt->img_data[x + WIDTH*i] = elt->texture[3].img_data[64*texy + texx];
     	}
-
-		/* if (elt->side == 1 && elt->raydir.y < 0)
-			elt->color = 0x03fc28;
-		if (elt->side == 1 && elt->raydir.y > 0)
-			elt->color = 0x03f4fc;
-		if (elt->side == 0 && elt->raydir.x > 0)
-			elt->color = 0xa903fc;
-		if (elt->side == 0 && elt->raydir.x < 0)
-			elt->color = 0xfc5a03; */
 		
-		
-		//verline(x, elt->drawstart, elt->drawend, elt);
+		//draw ground
 		elt->color = 0x525b6b;
 		verline(x, elt->drawend, HEIGHT - 1, elt);
+		
+		elt->zbuffer[x] = elt->perpwalldist;
+	}
 
-		elt->movespeed = 0.2;
-		elt->rotspeed = 0.05;
-		x++;
+	int i = -1;
+	while (++i < elt->sp)
+	{
+		elt->sporder[i] = i;
+		elt->spdist[i] = (elt->player.x - elt->sprts[i].x)*(elt->player.x - elt->sprts[i].x) +
+						(elt->player.y - elt->sprts[i].y)*(elt->player.y - elt->sprts[i].y);
+	}
+	sort(elt);
+	i = -1;
+	while (++i < elt->sp)
+	{
+		double spritex = elt->sprts[elt->sporder[i]].x - elt->player.x;
+		double spritey = elt->sprts[elt->sporder[i]].y - elt->player.y;
+
+		double det = 1.0 / (elt->plane.x * elt->dir.y - elt->dir.x * elt->plane.y);
+
+		double trx = det * (elt->dir.y * spritex - elt->dir.x * spritey);
+		double try = det * (-elt->plane.y * spritex + elt->plane.x * spritey);
+
+		int spritescreenx = (int)((WIDTH / 2) * (1 + trx/try));
+
+		//height of the sprite
+		int spriteh = abs((int)(HEIGHT/try));
+
+		int drawstarty = -spriteh / 2 + HEIGHT / 2;
+		if (drawstarty < 0) 
+			drawstarty = 0;
+	
+		int drawendy = spriteh / 2 + HEIGHT / 2;
+		if (drawendy >= HEIGHT)
+			drawendy = HEIGHT - 1;
+
+		//width of the sprite
+		int spritew = abs((int)(HEIGHT/try));
+
+		int drawstartx = -spritew / 2 + spritescreenx;
+		if (drawstartx < 0) 
+			drawstartx = 0;
+	
+		int drawendx = spritew / 2 + spritescreenx;
+		if (drawendx >= WIDTH)
+			drawendx = WIDTH - 1;
+
+		int x = drawstartx - 1;
+
+		while (++x < drawendx)
+		{
+			int texx = (int)(256 * (x - (-spritew / 2 + spritescreenx)) * 64 / spritew) / 256;
+			if (try > 0 && x > 0 && x < WIDTH && try < elt->zbuffer[x])
+			{
+				int y = drawstarty - 1;
+				while (++y < drawendy)
+				{
+					int d = y * 256 - HEIGHT * 128 + spriteh * 128;
+					int texy = ((d * 64) / spriteh) / 256;
+					int color = elt->sprite.img_data[64 * texy + texx];
+					if (color != 0x0000000)
+						elt->img_data[x + WIDTH*y] = color;
+				}
+			}
+		}
 	}
 }
 
@@ -181,13 +255,55 @@ int	key_press(int keycode, void *param)
 	t_elt *elt = (t_elt*)(param);
 
 	if(keycode == 13)
+		elt->move.forward = 1;
+	if (keycode == 1)
+		elt->move.backward= 1;
+	if(keycode == 0)
+		elt->move.left = 1;
+	if(keycode == 2)
+		elt->move.right = 1;
+	if (keycode == 124)
+		elt->move.leftr = 1;
+	if (keycode == 123)
+		elt->move.rightr = 1;
+
+	if (keycode == 53)
+		close_win(elt);
+	return (0);
+}
+
+int	key_release(int keycode, void *param)
+{
+	t_elt *elt = (t_elt*)(param);
+
+	if(keycode == 13)
+		elt->move.forward = 0;
+	if (keycode == 1)
+		elt->move.backward= 0;
+	if(keycode == 0)
+		elt->move.left = 0;
+	if (keycode == 2)
+		elt->move.right = 0;
+	if (keycode == 124)
+		elt->move.leftr = 0;
+	if (keycode == 123)
+		elt->move.rightr = 0;
+	return (0);
+}
+
+
+
+int		walk_arround(void *param)
+{
+	t_elt *elt = (t_elt*)param;
+	if(elt->move.forward == 1)
 	{
 		if (worldMap[(int)(elt->player.x + elt->dir.x * elt->movespeed)][(int)elt->player.y] == 0)
 			elt->player.x += elt->dir.x * (elt->movespeed - 0.01);
 		if (worldMap[(int)elt->player.x][(int)(elt->player.y + elt->dir.y * elt->movespeed)] == 0)
 			elt->player.y += elt->dir.y * (elt->movespeed - 0.01);
 	}
-	if (keycode == 1)
+	if (elt->move.backward == 1)
 	{
 		if (worldMap[(int)(elt->player.x - elt->dir.x * elt->movespeed)][(int)elt->player.y] == 0)
 			elt->player.x -= elt->dir.x * (elt->movespeed - 0.01);
@@ -195,7 +311,7 @@ int	key_press(int keycode, void *param)
 			elt->player.y -= elt->dir.y * (elt->movespeed - 0.01);
 	}
 
-	if(keycode == 0)
+	if(elt->move.left== 1)
 	{
 		if (worldMap[(int)(elt->player.x - elt->dir.y * elt->movespeed)][(int)elt->player.y] == 0)
 			elt->player.x -= elt->dir.y * (elt->movespeed - 0.01);
@@ -203,7 +319,7 @@ int	key_press(int keycode, void *param)
 			elt->player.y += elt->dir.x * (elt->movespeed - 0.01);
 	}
 
-	if(keycode == 2)
+	if(elt->move.right == 1)
 	{
 		if (worldMap[(int)(elt->player.x + elt->dir.y * elt->movespeed)][(int)elt->player.y] == 0)
 			elt->player.x += elt->dir.y * elt->movespeed;
@@ -211,7 +327,7 @@ int	key_press(int keycode, void *param)
 			elt->player.y -= elt->dir.x * elt->movespeed;
 	}
 	
-	if (keycode == 124)
+	if (elt->move.leftr == 1)
 	{
 		double olddirx = elt->dir.x;
 		elt->dir.x = elt->dir.x * cos(-elt->rotspeed) - elt->dir.y * sin(-elt->rotspeed);
@@ -220,7 +336,7 @@ int	key_press(int keycode, void *param)
 		elt->plane.x = elt->plane.x * cos(-elt->rotspeed) - elt->plane.y * sin(-elt->rotspeed);
 		elt->plane.y = oldplanex * sin(-elt->rotspeed) + elt->plane.y * cos (-elt->rotspeed);
 	}
-	if (keycode == 123)
+	if (elt->move.rightr == 1)
 	{
 		double olddirx = elt->dir.x;
 		elt->dir.x = elt->dir.x * cos(elt->rotspeed) - elt->dir.y * sin(elt->rotspeed);
@@ -230,11 +346,9 @@ int	key_press(int keycode, void *param)
 		elt->plane.y = oldplanex * sin(elt->rotspeed) + elt->plane.y * cos(elt->rotspeed);
 	}
 
-	printf("%lf   %lf    %lf   %lf\n",elt->dir.x, elt->dir.y, elt->plane.x, elt->plane.y);
+	//printf("%d  %d   %lf   %lf    %lf   %lf\n",(int)elt->player.x, (int)elt->player.y, elt->dir.x, elt->dir.y, elt->plane.x, elt->plane.y);
 	
 	
-	if (keycode == 53)
-		close_win(elt);
 	mlx_destroy_image(elt->mlx_ptr, elt->img_ptr);
 	mlx_clear_window(elt->mlx_ptr, elt->win);
 	elt->img_ptr = mlx_new_image(elt->mlx_ptr, WIDTH, HEIGHT); 
@@ -243,7 +357,6 @@ int	key_press(int keycode, void *param)
 	mlx_put_image_to_window(elt->mlx_ptr, elt->win, elt->img_ptr, 0, 0);
 	return (0);
 }
-
 
 int main()
 {
@@ -255,8 +368,20 @@ int main()
 	elt->img_ptr = mlx_new_image(elt->mlx_ptr, WIDTH, HEIGHT); 
 	elt->img_data = (int*)mlx_get_data_addr(elt->img_ptr, &(elt->bpp), &(elt->sizeline), &(elt->endian));
 	
-	elt->texture.img_ptr =  mlx_xpm_file_to_image ( elt->mlx_ptr, "./pics/stone.xpm", &a, &b);
-	elt->texture.img_data = (int*)mlx_get_data_addr(elt->texture.img_ptr, &(elt->texture.bpp), &(elt->texture.sizeline), &(elt->texture.endian));
+	elt->texture[0].img_ptr =  mlx_png_file_to_image ( elt->mlx_ptr, "./pics/greystone.png", &a, &b);
+	elt->texture[0].img_data = (int*)mlx_get_data_addr(elt->texture[0].img_ptr, &(elt->texture[0].bpp), &(elt->texture[0].sizeline), &(elt->texture[0].endian));
+
+	elt->texture[1].img_ptr =  mlx_png_file_to_image ( elt->mlx_ptr, "./pics/purplestone.png", &a, &b);
+	elt->texture[1].img_data = (int*)mlx_get_data_addr(elt->texture[1].img_ptr, &(elt->texture[1].bpp), &(elt->texture[1].sizeline), &(elt->texture[1].endian));
+	
+	elt->texture[2].img_ptr =  mlx_png_file_to_image ( elt->mlx_ptr, "./pics/bluestone.png", &a, &b);
+	elt->texture[2].img_data = (int*)mlx_get_data_addr(elt->texture[2].img_ptr, &(elt->texture[2].bpp), &(elt->texture[2].sizeline), &(elt->texture[2].endian));
+
+	elt->texture[3].img_ptr =  mlx_png_file_to_image ( elt->mlx_ptr, "./pics/colorstone.png", &a, &b);
+	elt->texture[3].img_data = (int*)mlx_get_data_addr(elt->texture[3].img_ptr, &(elt->texture[3].bpp), &(elt->texture[3].sizeline), &(elt->texture[3].endian));
+
+	elt->sprite.img_ptr =  mlx_png_file_to_image ( elt->mlx_ptr, "./pics/barrel.png", &a, &b);
+	elt->sprite.img_data = (int*)mlx_get_data_addr(elt->sprite.img_ptr, &(elt->sprite.bpp), &(elt->sprite.sizeline), &(elt->sprite.endian));
 
 	elt->player.x = 18;
 	elt->player.y = 12; 
@@ -265,11 +390,38 @@ int main()
 	elt->plane.x = 0;
 	elt->plane.y = -0.66;
 	
+
+	elt->move.forward = 0;
+	elt->move.backward= 0;
+	elt->move.left = 0;
+	elt->move.right = 0;
+	elt->move.leftr = 0;
+	elt->move.rightr = 0;
+
+	elt->movespeed = 0.1;
+	elt->rotspeed = 0.04;
+
+
+	elt->sp = 2;
+	elt->zbuffer = (double*)malloc(WIDTH*sizeof(double));
+	elt->sprts = (t_cam*)malloc(sizeof(t_cam)*elt->sp);
+	elt->sporder = (int*)malloc(sizeof(int)*elt->sp);
+	elt->spdist = (double*)malloc(sizeof(double)*elt->sp);
+
+
+	elt->sprts[0].x = 17;
+	elt->sprts[0].y = 14;
+
+	elt->sprts[1].x = 18;
+	elt->sprts[1].y = 15; 
+
 	draw_map(elt);
 
-	mlx_put_image_to_window(elt->mlx_ptr, elt->win, elt->img_ptr, 0, 0);
+	//mlx_put_image_to_window(elt->mlx_ptr, elt->win, elt->img_ptr, 0, 0);
 
+	mlx_loop_hook(elt->mlx_ptr, walk_arround, elt);
 	mlx_hook(elt->win, 2, 0, key_press, elt);
+	mlx_hook(elt->win, 3, 0, key_release, elt);
 	mlx_hook(elt->win, 17, 0, close_win, elt);
 	mlx_loop(elt->mlx_ptr);
 

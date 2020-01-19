@@ -6,31 +6,35 @@
 /*   By: amoussai <amoussai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/04 12:25:52 by amoussai          #+#    #+#             */
-/*   Updated: 2020/01/11 17:19:46 by amoussai         ###   ########.fr       */
+/*   Updated: 2020/01/18 09:56:37 by amoussai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAYCASTER_H
 # define RAYCASTER_H
 
-#include <mlx.h>
+//#include <mlx.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
 #include <stdio.h>
+
+#include "mlx.h"
 
 #define WIDTH 1024
 #define HEIGHT 720
 #define mapWidth 24
 #define mapHeight 24
 
-typedef struct	s_block
+typedef struct	s_move
 {
-	int		type;
-	double	pos_x;
-	double	pos_y;
-	int		color;
-}				t_block;
+	int		forward;
+	int		backward;
+	int		left;
+	int		right;
+	int		leftr;
+	int		rightr;
+}				t_move;
 
 typedef struct	s_cam
 {
@@ -82,7 +86,14 @@ typedef struct	s_elt
 	t_cam		dir;
 	t_cam		camera;
 	t_cam 		raydir;
-	t_image		texture;
+	t_image		texture[4];
+	t_image		sprite;
+	t_move		move;
+	t_cam		*sprts;
+	double		*zbuffer;
+	int			*sporder;
+	double		*spdist;
+	int			sp;
 }				t_elt;
 
 

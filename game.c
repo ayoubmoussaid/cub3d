@@ -95,7 +95,7 @@ void	draw_map(t_elt *elt)
 				elt->map.y += elt->step.y;
 				elt->side = 1;
 			}
-			if (elt->world[elt->map.x][elt->map.y] > 0) elt->hit = 1;
+			if (elt->world[elt->map.x][elt->map.y] == 1) elt->hit = 1;
 		}
 		if (elt->side == 0)
 			elt->perpwalldist = (elt->map.x - elt->player.x + (1 - elt->step.x) / 2) / elt->raydir.x;

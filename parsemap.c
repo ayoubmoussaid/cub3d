@@ -205,7 +205,7 @@ void	take_pos(t_elt *elt)
 		{
 			if (elt->world[i][j] == 2)
 			{
-				elt->world[i][j] = 0;
+				//elt->world[i][j] = 0;
 				elt->sprts[k].x = i + 0.5;
 				elt->sprts[k].y = j + 0.5;
 				k++;

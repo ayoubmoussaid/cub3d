@@ -385,10 +385,10 @@ int main()
 
 	elt->player.x = 18;
 	elt->player.y = 12; 
-	elt->dir.x = 1; 
-	elt->dir.y = 0;
-	elt->plane.x = 0;
-	elt->plane.y = -0.66;
+	elt->dir.x = 0; 
+	elt->dir.y = -1;
+	elt->plane.x = -0.66;
+	elt->plane.y = 0;
 	
 
 	elt->move.forward = 0;

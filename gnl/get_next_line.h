@@ -6,7 +6,7 @@
 /*   By: amoussai <amoussai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 18:02:01 by amoussai          #+#    #+#             */
-/*   Updated: 2020/01/20 10:22:24 by amoussai         ###   ########.fr       */
+/*   Updated: 2020/01/23 11:10:15 by amoussai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # define BUFFER_SIZE 50
-
 
 int				get_next_line(int fd, char **line);
 char			*ft_strjoin1(char *s1, char *s2);
